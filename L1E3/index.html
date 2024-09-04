@@ -1,0 +1,62 @@
+<HTML>
+    <head>
+        <title>HELLO</title>
+        <style>
+            input {
+                margin: 0.25em;
+            }
+            form {
+                background-color: hsl(0, 0%, 80%);
+                border-radius: 25px;
+                padding: 8px 20px 20px 20px;
+                width: fit-content;
+            }
+            h2 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+    <form>
+        <h2>Ex 3</h2>
+        <label for="album_name">Album Name:</label>
+        <input type="text" name="album_name"><br>
+        
+        <label for ="release_year"> Release Year:</label>
+        <input type="number" min=0 max=2999 value="2024" name="release_year"><br>
+        
+        <label for="artist">Artist:</label>
+        <select name="artist">
+            <option value="0">Deadmau5</option>
+            <option value="1">Ya mama</option>
+        </select> <br>
+        
+        <label for="single">Single</label>
+        <input type="radio" name="album_type" id="single" checked=true>
+        <label for="EP">EP</label>
+        <input type="radio" name="album_type" id="EP">
+        <label for="album">Album</label>
+        <input type="radio" name="album_type" id="album"><br>
+        
+        <label for="album_description">Description</label><br>
+        <textarea name="album_description" id=""></textarea>
+        <h4>Tracks:</h4>
+        <label for="track_1">Track 1:</label>
+        <input type="text" name="track_1" id="" placeholder="Track 1"><br>
+        <label for="track_2">Track 2:</label>
+        <input type="text" name="track_2" id="" placeholder="Track 2"><br>
+        <label for="track_3">Track 3:</label>
+        <input type="text" name="track_3" id="" placeholder="Track 3"><br>
+        <label for="track_4">Track 4:</label>
+        <input type="text" name="track_4" id="" placeholder="Track 4"><br>
+    </form>
+</body>
+</HTML>
+<!-- 
+    Name of the album: text
+    Release year: number
+    Artist: selected from a list of options
+    Type: single (single song), EP (not enough to be considered a full album), album
+    Description: text area
+    Tracks: text, only 10 inputs
+ -->
