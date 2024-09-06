@@ -1,0 +1,37 @@
+:root {
+    --eyepod-sizing: 200;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f4;
+}
+
+div:has(.eyepod) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.eyepod {
+    /* https://everymac.com/systems/apple/ipod/specs/ipod-2nd-generation-nano-red-specs.html */
+    aspect-ratio: 1.6 / 3.5;
+    height: 100%;
+    /* width: 100%; */
+    max-height: 80vh;
+    max-width: 80vw;
+    background: rgb(110, 15, 21); /* https://cssgradient.io/ */
+    background: linear-gradient(
+        90deg,
+        rgba(110, 15, 21, 1) 0%,
+        rgba(210, 19, 34, 1) 3%,
+        rgba(197, 31, 48, 1) 8%,
+        rgba(197, 31, 48, 1) 92%,
+        rgba(210, 19, 34, 1) 97%,
+        rgba(110, 15, 21, 1) 100%
+    );
+}
