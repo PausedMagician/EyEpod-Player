@@ -34,4 +34,54 @@ div:has(.eyepod) {
         rgba(210, 19, 34, 1) 97%,
         rgba(110, 15, 21, 1) 100%
     );
+
+    
+}
+
+header {
+    background-color: aqua;
+}
+
+header h1{
+    margin-top: 0;
+    background-color: antiquewhite;
+}
+
+header li {
+    list-style-type: none;
+    margin-right:50px;
+    padding: 0;
+    display: inline;
+}
+
+.container{
+    height: 60%;
+    width: 40%;
+    border: solid;
+    border-radius: 10px;
+    background-color: grey;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-left: 30%;
+    text-align: center;
+}
+
+input, textarea{
+    width: 80%;
+    clear: both;
+    align-self: center;
+    margin-bottom: 4px;
+    text-align: center;
+    margin-left: auto;
+}
+
+button, label{
+    display: flex;
+    justify-items: center;
+    margin: auto;
+}
+
+ul{
+    list-style-type: none;
 }
