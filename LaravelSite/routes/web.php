@@ -2,10 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
+$gets = [
+    '/'=> 'index',
+    '/Create Artist' => 'create',
+];
 
-Route::get('/create', function() {
-    return view('create');
-});
+foreach($gets as $path => $view) {
+    Route::get($path, function() use ($view) {
+        return view($view);
+    });
+}
+
+// Route::get('/', function () {
+//     return view('index');
+// });
+
+// Route::get('/Create Artist', function() {
+//     return view('create');
+// });

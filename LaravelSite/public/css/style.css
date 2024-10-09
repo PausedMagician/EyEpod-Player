@@ -1,11 +1,13 @@
 :root {
     --eyepod-sizing: 200;
+    --nav-height: 90px;
+    --ipod-color: 197, 31, 48;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     background: #f4f4f4;
 }
 
@@ -13,10 +15,9 @@ div:has(.eyepod) {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - var(--nav-height));
     width: 100%;
 }
-
 .eyepod {
     /* https://everymac.com/systems/apple/ipod/specs/ipod-2nd-generation-nano-red-specs.html */
     aspect-ratio: 1.6 / 3.5;
@@ -34,27 +35,125 @@ div:has(.eyepod) {
         rgba(210, 19, 34, 1) 97%,
         rgba(110, 15, 21, 1) 100%
     );
+    /* Shadow */
+    -webkit-box-shadow: 3px 7px 23px 0px rgba(0, 0, 0, 0.51);
+    -moz-box-shadow: 3px 7px 23px 0px rgba(0, 0, 0, 0.51);
+    box-shadow: 3px 7px 23px 0px rgba(0, 0, 0, 0.51);
+}
+/* EyEpod Screen */
+.eyepod .screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35%;
+}
+.eyepod .screen-container .screen {
+    aspect-ratio: 11/9;
+    background-color: white;
+    width: 80%;
+    margin: 10%;
+    margin-bottom: 0;
+    border: black 2px solid;
+    border-radius: 10px;
+}
 
-    
+/* EyEpod Wheel */
+.eyepod .wheel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 39%);
+    width: 100%;
+}
+.eyepod .wheel-container .wheel {
+    position: relative;
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-row: auto auto;
+    transform: rotate(45deg);
+    background-color: rgb(233, 233, 237);
+    border-radius: 100%;
+}
+.eyepod .wheel-container .wheel button {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    background-color: rgb(233, 233, 237);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.eyepod .wheel-container .wheel button img {
+    width: 25%;
+    aspect-ratio: 1 / 1;
+    transform: rotate(-45deg);
+    filter: grayscale(1);
+}
+/* There are 4 buttons that need to form a circle */
+.eyepod .wheel-container .wheel button:nth-child(1) {
+    border-radius: 100% 0 50% 0;
+}
+.eyepod .wheel-container .wheel button:nth-child(1) img {
+    width: 45%;
+    transform: rotate(-45deg) translate(0, -27%);
+}
+.eyepod .wheel-container .wheel button:nth-child(2) {
+    border-radius: 0 100% 0 50%;
+}
+.eyepod .wheel-container .wheel button:nth-child(2) img {
+    transform: rotate(-45deg) translate(40%, 0);
+}
+.eyepod .wheel-container .wheel button:nth-child(3) {
+    border-radius: 0 50% 0 100%;
+}
+.eyepod .wheel-container .wheel button:nth-child(3) img {
+    transform: rotate(135deg) translate(40%, 0);
+}
+.eyepod .wheel-container .wheel button:nth-child(4) {
+    border-radius: 50% 0 100% 0;
+}
+.eyepod .wheel-container .wheel button:nth-child(4) img {
+    transform: rotate(-45deg) translate(0, 50%);
+}
+.eyepod .wheel-container .wheel .middle-button {
+    position: absolute;
+    width: 45%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    background-color: rgb(var(--ipod-color));
+    border-radius: 100%;
+    top: 27.5%;
+    left: 27.5%;
+}
+.eyepod .wheel-container .wheel button:hover,
+.eyepod .wheel-container .wheel .middle-button:hover {
+    filter: brightness(0.9);
+}
+.eyepod .wheel-container .wheel button:active,
+.eyepod .wheel-container .wheel .middle-button:active {
+    filter: brightness(0.8);
 }
 
 header {
     background-color: aqua;
+    height: var(--nav-height);
 }
 
-header h1{
+header h1 {
     margin-top: 0;
     background-color: antiquewhite;
 }
 
 header li {
     list-style-type: none;
-    margin-right:50px;
+    margin-right: 50px;
     padding: 0;
     display: inline;
 }
 
-.container{
+.container {
     height: 60%;
     width: 40%;
     border: solid;
@@ -67,7 +166,8 @@ header li {
     text-align: center;
 }
 
-input, textarea{
+input,
+textarea {
     width: 80%;
     clear: both;
     align-self: center;
@@ -76,12 +176,13 @@ input, textarea{
     margin-left: auto;
 }
 
-button, label{
+button,
+label {
     display: flex;
     justify-items: center;
     margin: auto;
 }
 
-ul{
+ul {
     list-style-type: none;
 }

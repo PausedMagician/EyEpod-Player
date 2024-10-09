@@ -20,6 +20,18 @@
 <body>
     <div>
         <div class="eyepod">
+            <div class="screen-container">
+                <div class="screen"></div>
+            </div>
+            <div class="wheel-container">
+                <div class="wheel">
+                    <button><img src="{{asset('icons/Menu.svg')}}" alt=""></button>
+                    <button><img src="{{asset('icons/Forward.svg')}}" alt=""></button>
+                    <button><img src="{{asset('icons/Forward.svg')}}" alt=""></button>
+                    <button><img src="{{asset('icons/PauseResume.svg')}}" alt=""></button>
+                    <button class="middle-button"></button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
