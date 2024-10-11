@@ -2,6 +2,7 @@
     --eyepod-sizing: 200;
     --nav-height: 90px;
     --ipod-color: 197, 31, 48;
+    --ipod-element-color: 233, 233, 237;
 }
 
 body {
@@ -24,7 +25,7 @@ div:has(.eyepod) {
     height: 100%;
     /* width: 100%; */
     max-height: 80vh;
-    max-width: 80vw;
+    /* max-width: 80vw; */
     background: rgb(110, 15, 21); /* https://cssgradient.io/ */
     background: linear-gradient(
         90deg,
@@ -48,6 +49,7 @@ div:has(.eyepod) {
     height: 35%;
 }
 .eyepod .screen-container .screen {
+    position: relative;
     aspect-ratio: 11/9;
     background-color: white;
     width: 80%;
@@ -55,6 +57,94 @@ div:has(.eyepod) {
     margin-bottom: 0;
     border: black 2px solid;
     border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.eyepod .player {
+    position: absolute;
+    bottom: 0;
+    width: 76%;
+    margin: 10%;
+    margin-bottom: 0;
+    height: 14%;
+    padding: 2%;
+    overflow: hidden;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(var(--ipod-element-color));
+    border: black 2px solid;
+    border-radius: 0 0 10px 10px;
+}
+.eyepod .player.playing {
+    display: flex;
+}
+.eyepod .player .other {
+    width: 100%;
+    height: 100%;
+}
+.eyepod .player .info {
+    /* Inline divs */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40%;
+}
+.eyepod .player .info .info-text {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.eyepod .player .progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}
+.eyepod .player .progress progress {
+    width: 80%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.eyepod .player .album {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    background-color: rgb(var(--ipod-color));
+    border-radius: 10px;
+}
+.eyepod .player .controls {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50%;
+}
+.eyepod .player .controls .button {
+    border: none;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: grayscale(1);
+}
+
+
+.eyepod podelement {
+    display: inherit;
+    width: 100%;
+    background-color: wheat;
+}
+.eyepod podelement.selected {
+    background-color: rgb(var(--ipod-color));
+}
+.eyepod podelement:hover {
+    cursor: pointer;
 }
 
 /* EyEpod Wheel */
@@ -75,8 +165,9 @@ div:has(.eyepod) {
     transform: rotate(45deg);
     background-color: rgb(233, 233, 237);
     border-radius: 100%;
+    
 }
-.eyepod .wheel-container .wheel button {
+.eyepod .wheel-container .wheel .button {
     width: 100%;
     aspect-ratio: 1 / 1;
     border: none;
@@ -84,37 +175,38 @@ div:has(.eyepod) {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
-.eyepod .wheel-container .wheel button img {
+.eyepod .wheel-container .wheel .button img {
     width: 25%;
     aspect-ratio: 1 / 1;
     transform: rotate(-45deg);
     filter: grayscale(1);
 }
 /* There are 4 buttons that need to form a circle */
-.eyepod .wheel-container .wheel button:nth-child(1) {
+.eyepod .wheel-container .wheel .button:nth-child(1) {
     border-radius: 100% 0 50% 0;
 }
-.eyepod .wheel-container .wheel button:nth-child(1) img {
+.eyepod .wheel-container .wheel .button:nth-child(1) img {
     width: 45%;
     transform: rotate(-45deg) translate(0, -27%);
 }
-.eyepod .wheel-container .wheel button:nth-child(2) {
+.eyepod .wheel-container .wheel .button:nth-child(2) {
     border-radius: 0 100% 0 50%;
 }
-.eyepod .wheel-container .wheel button:nth-child(2) img {
+.eyepod .wheel-container .wheel .button:nth-child(2) img {
     transform: rotate(-45deg) translate(40%, 0);
 }
-.eyepod .wheel-container .wheel button:nth-child(3) {
+.eyepod .wheel-container .wheel .button:nth-child(3) {
     border-radius: 0 50% 0 100%;
 }
-.eyepod .wheel-container .wheel button:nth-child(3) img {
+.eyepod .wheel-container .wheel .button:nth-child(3) img {
     transform: rotate(135deg) translate(40%, 0);
 }
-.eyepod .wheel-container .wheel button:nth-child(4) {
+.eyepod .wheel-container .wheel .button:nth-child(4) {
     border-radius: 50% 0 100% 0;
 }
-.eyepod .wheel-container .wheel button:nth-child(4) img {
+.eyepod .wheel-container .wheel .button:nth-child(4) img {
     transform: rotate(-45deg) translate(0, 50%);
 }
 .eyepod .wheel-container .wheel .middle-button {
@@ -127,11 +219,11 @@ div:has(.eyepod) {
     top: 27.5%;
     left: 27.5%;
 }
-.eyepod .wheel-container .wheel button:hover,
+.eyepod .wheel-container .wheel .button:hover,
 .eyepod .wheel-container .wheel .middle-button:hover {
     filter: brightness(0.9);
 }
-.eyepod .wheel-container .wheel button:active,
+.eyepod .wheel-container .wheel .button:active,
 .eyepod .wheel-container .wheel .middle-button:active {
     filter: brightness(0.8);
 }
