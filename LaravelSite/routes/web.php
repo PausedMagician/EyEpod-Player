@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArtistController;
+use App\Models\Artist;
+
+Route::get('/', [ArtistController::class, 'index']) -> name('artist.index');
 
 $gets = [
     '/'=> 'index',
@@ -24,6 +28,4 @@ Route::get('/audio/{id}', function($id) {
 //     return view('index');
 // });
 
-// Route::get('/Create Artist', function() {
-//     return view('create');
-// });
+Route::post('/', [ArtistController::class, 'store'])->name('artist.store');
