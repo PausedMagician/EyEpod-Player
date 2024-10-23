@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Artist;
+use App\Models\Album;
 
 class ArtistController extends Controller
 {
@@ -15,6 +16,11 @@ class ArtistController extends Controller
     public function create(){
         return view('create');
     }
+
+    public function show(Request $request){
+        
+    }
+
 
     public function store(Request $request){
         $validatedData = $request->validate([
