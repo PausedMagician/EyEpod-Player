@@ -5,20 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Artist;
 use App\Models\Album;
-
+use Log;
 class ArtistController extends Controller
 {
     public function index(){
         
-        return view('index');
+        $artist = Artist::all();
+        return view('index', compact('artist'));
+        
     }
 
     public function create(){
         return view('create');
-    }
-
-    public function show(Request $request){
-        
     }
 
 
@@ -26,17 +24,18 @@ class ArtistController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'genre' => 'required|string|max:255',
-            'artist_desc' => 'nullable|string',
+            'bio' => 'nullable|string',
         ]);
 
         // Create a new artist and save to the database
-        $artist = new Artist($validatedData);
-        $artist->name = $validatedData['name'];
-        $artist->genre = $validatedData['genre'];
-        $artist->artist_desc = $validatedData['artist_desc'];
-        $artist->save();
+        Artist::create($request->all());
 
-        // Redirect back to the index page with a success message
-        return redirect('/')->with('success', 'Artist created successfully!');
+        // Redirect back to the index page
+        return redirect()->route('artist.index');
+    }
+
+    public function show($id){
+        $artist = Artist::findOrFail($id);
+        return view('artist.show', compact('artist'));
     }
 }

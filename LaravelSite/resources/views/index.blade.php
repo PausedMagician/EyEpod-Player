@@ -13,7 +13,7 @@
     <h1><a href="">EyePod</a></h1>
     <div>
         <ul>
-            <li><a href="./Create Artist">Create Artist</a></li>
+            <li><a href="/create">Create Artist</a></li>
             <li><a href="">Create Album</a></li>
             <li><a href="">Artist</a></li>
         </ul>

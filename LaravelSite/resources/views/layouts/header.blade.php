@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <h1><a href="./">EyePod</a></h1>
+        <h1><a href="{{route('artist.index')}}">EyePod</a></h1>
         <div>
             <ul>
                 <li><a href="./create">Create Artist</a></li>

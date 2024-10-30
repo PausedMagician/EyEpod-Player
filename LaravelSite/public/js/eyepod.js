@@ -284,6 +284,7 @@ class EyePod {
                 (this.currentTime / this.duration) * 100;
         });
         document.querySelector(".player").classList.add("playing");
+        document.querySelector(".eyepod").classList.add("playing");
     }
 
     static stopSong() {
@@ -292,6 +293,7 @@ class EyePod {
             this.song.pause();
             this.song = null;
             document.querySelector(".player").classList.remove("playing");
+            document.querySelector(".eyepod").classList.remove("playing");
         }
     }
 

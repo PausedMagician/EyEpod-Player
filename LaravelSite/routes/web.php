@@ -4,28 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtistController;
 use App\Models\Artist;
 
-Route::get('/', [ArtistController::class, 'index']) -> name('artist.index');
-
-$gets = [
-    '/'=> 'index',
-    '/Create Artist' => 'create',
-];
-
-foreach($gets as $path => $view) {
-    Route::get($path, function() use ($view) {
+function vview($view) {
+    return function() use ($view) {
         return view($view);
-    });
+    };
 }
 
-Route::get('/audio/{id}', function($id) {
-    // REST API from here
-    header('Content-Type: audio/mpeg');
-    $file = file_get_contents(public_path() . '/audio/'.$id.'.mp3');
-    echo $file;
-});
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/create', [ArtistController::class, 'create']) -> name('artist.create');
 
-Route::post('/', [ArtistController::class, 'store'])->name('artist.store');
+Route::post('/store',[ArtistController::class,'store']) -> name('artist.store');
+
+Route::get('/show/{id}', [ArtistController::class, 'show'])->name('artist.show');
+
+Route::get('/', [ArtistController::class, 'index'])->name('artist.index');
+
+
+Route::get('/signup', vview("signup"))->name('signup');
+Route::get('/login', vview("login"))->name('login');
+
