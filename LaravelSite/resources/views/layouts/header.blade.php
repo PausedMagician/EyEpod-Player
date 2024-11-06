@@ -13,9 +13,12 @@
         <h1><a href="{{route('artist.index')}}">EyePod</a></h1>
         <div>
             <ul>
-                <li><a href="./create">Create Artist</a></li>
+                <li><a href="{{ route('artist.create') }}">Create Artist</a></li>
                 <li><a href="">Create Album</a></li>
                 <li><a href="">Artist</a></li>
+                <li><a href="{{ route('signup') }}">Sign Up</a></li>
+                <li><a href="{{ route('login') }}">Login</a></li>
+                <li><a href="{{ route('logout') }}">Logout</a></li>
             </ul>
         </div>
     </header>

@@ -9,16 +9,9 @@
     <script src={{ asset('js/eyepod.js') }}></script>
 </head>
 
-<header>
-    <h1><a href="">EyePod</a></h1>
-    <div>
-        <ul>
-            <li><a href="/create">Create Artist</a></li>
-            <li><a href="">Create Album</a></li>
-            <li><a href="">Artist</a></li>
-        </ul>
-    </div>
-</header>
+@extends('layouts.header')
+
+@section('content')
 
 <body>
     <div>
@@ -27,6 +20,13 @@
                 <div style="width: 100%; position: relative;">
                     <div class="screen">
                     </div>
+                    
+                    <!-- @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif -->
+
                     <div class="player">
                         <div class="album">
                             <img src="{{ asset('images/album.jpg') }}" alt="">
@@ -69,5 +69,4 @@
         </div>
     </div>
 </body>
-
-</html>
+@endsection

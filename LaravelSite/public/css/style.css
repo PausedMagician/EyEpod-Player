@@ -418,13 +418,13 @@ div:has(.eyepod) {
 }
 
 header {
-    background-color: aqua;
+    background-color: var(--background-200);
     height: var(--nav-height);
 }
 
 header h1 {
     margin-top: 0;
-    background-color: antiquewhite;
+    background-color: var(--background-300);
 }
 
 header li {

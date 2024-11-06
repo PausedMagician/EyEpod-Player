@@ -11,6 +11,7 @@
             @yield("inputs")
             @yield("button")
         </form>
+        @yield("logs")
     </div>
 </body>
 </html>

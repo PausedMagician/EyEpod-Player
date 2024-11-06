@@ -31,7 +31,7 @@ class ArtistController extends Controller
         Artist::create($request->all());
 
         // Redirect back to the index page
-        return redirect()->route('artist.index');
+        return redirect()->route('artist.index')->with(   'success','Artist succesfully created');
     }
 
     public function show($id){

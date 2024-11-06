@@ -8,10 +8,17 @@ Login
 action="{{ route('login') }}" method="post" class="login-form"
 @endsection
 
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 @section("inputs")
+@csrf
 <div>
-    <label for="username">Username:</label>
-    <input type="text"      name="username" placeholder="Username" class="w-100">
+    <label for="name">Username:</label>
+    <input type="text"      name="name" placeholder="Username" class="w-100">
 </div>
 <div>
     <label for="password">Password:</label>
@@ -26,4 +33,16 @@ action="{{ route('login') }}" method="post" class="login-form"
 
 @section("button")
 <button type="submit">Login</button>
+@endsection
+
+@section("logs")
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@elseif (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 @endsection

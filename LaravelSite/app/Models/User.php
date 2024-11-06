@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as BaseUser;
 
 
-class User extends Model
+
+class User extends BaseUser
 {
     use HasFactory;
     protected $fillable = [
