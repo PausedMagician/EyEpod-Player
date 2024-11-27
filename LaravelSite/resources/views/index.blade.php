@@ -9,7 +9,7 @@
     <script src={{ asset('js/eyepod.js') }}></script>
 </head>
 
-@extends('layouts.header')
+@extends('layouts.stencil')
 
 @section('content')
 
@@ -20,13 +20,6 @@
                 <div style="width: 100%; position: relative;">
                     <div class="screen">
                     </div>
-                    
-                    <!-- @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif -->
-
                     <div class="player">
                         <div class="album">
                             <img src="{{ asset('images/album.jpg') }}" alt="">

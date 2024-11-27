@@ -1,4 +1,4 @@
-@extends('layouts.login-signup-form')
+@extends('layouts.generic-form')
 
 @section('title')
 Sign Up

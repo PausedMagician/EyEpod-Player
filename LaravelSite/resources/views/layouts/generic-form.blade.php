@@ -5,7 +5,9 @@
     <title>@yield("title")</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
+
 <body>
+    @yield('header')
     <div class="flex-center w-100 h-100">
         <form @yield("form-attributes")>
             @yield("inputs")

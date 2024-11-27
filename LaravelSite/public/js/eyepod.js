@@ -47,9 +47,10 @@ class PodElement {
     }
 
     // From datatypes
-    static fromSong(song) {
+    static async fromSong(song) {
+        const content = await EyePod.renderSongContent(song.id);
         return new PodElement(
-            EyePod.renderSongContent(song.id),
+            content,
             `song${song.id}`,
             function () {
                 EyePod.playSong(song.id);
@@ -238,38 +239,39 @@ class EyePod {
     /**
      *
      * @param {number} id
-     * @returns {{title: string, artist: string, album: string, year: string, genre: string, duration: string, lyrics: string}}
+     * @returns {Promise<{title: string, artist: string, album: string, year: string, genre: string, duration: string, lyrics: string}>}
      */
-    static getSongData(id) {
-        return {
-            title: "Song Title",
-            artist: "Artist Name",
-            album: "Album Name",
-            year: "Year",
-            genre: "Genre",
-            duration: "Duration",
-            lyrics: "Lyrics",
-        };
+    static async getSongData(id) {
+        // return {
+        //     title: "Song Title",
+        //     artist: "Artist Name",
+        //     album: "Album Name",
+        //     year: "Year",
+        //     genre: "Genre",
+        //     duration: "Duration",
+        //     lyrics: "Lyrics",
+        // };
+        const response = await fetch(`/song/get/${id}`);
+        return await response.json();
     }
 
     /**
      * Renders the content of a song for a given song ID.
      *
      * @param {number} id - The ID of the song.
-     * @returns {HTMLElement} - The HTML element containing the song content.
      */
-    static renderSongContent(id) {
-        let songData = this.getSongData(id);
+    static async renderSongContent(id) {
+        const songData = await this.getSongData(id);
         let songContent = document.createElement("PodElement");
         songContent.innerHTML = `
-            <div>
-                <h1>${songData.title}</h1>
-                <h4>${songData.artist}</h4>
-                <span>${songData.album}</span>
-                <span>- ${songData.year}</span>
-                <span>- ${songData.genre}</span>
-                <span>- ${songData.duration}</span>
-            </div>`;
+                <div>
+                    <h1>${songData.title}</h1>
+                    <h4>${songData.artist}</h4>
+                    <span>${songData.album}</span>
+                    <span>- ${songData.year}</span>
+                    <span>- ${songData.genre}</span>
+                    <span>- ${songData.duration}</span>
+                </div>`;
         return songContent;
     }
 
@@ -362,7 +364,6 @@ function middClick(params) {
  */
 function handleKeyDown(e) {
     switch (e.key) {
-        case "ArrowUp":
         case "w":
             menuClick();
             break;
@@ -370,7 +371,6 @@ function handleKeyDown(e) {
         case "d":
             skipClick();
             break;
-        case "ArrowDown":
         case "x":
             playClick();
             break;
@@ -381,6 +381,12 @@ function handleKeyDown(e) {
         case "Enter":
         case "s":
             middClick();
+            break;
+        case "ArrowUp":
+            globalEyePod.page.previousPodElement();
+            break;
+        case "ArrowDown":
+            globalEyePod.page.nextPodElement();
             break;
         default:
             break;
@@ -398,8 +404,18 @@ function handleRotation(e) {
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    async function () {
         globalEyePod = new EyePod(globalPages["home"]);
+        globalPages["songs"] = new Page([]);
+        fetch("/songs/get").then((response) => {
+            response.json().then((data) => {
+                for (let song of data) {
+                    globalPages["songs"].content.push(
+                        PodElement.fromSong(song.id)
+                    );
+                }
+            });
+        });
         globalEyePod.render();
         globalEyePod.page.content[0].select();
         document.addEventListener("keydown", handleKeyDown);

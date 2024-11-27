@@ -448,7 +448,8 @@ header li {
 }
 
 input,
-textarea {
+textarea,
+select {
     width: 80%;
     clear: both;
     align-self: center;
@@ -490,23 +491,24 @@ ul {
 
 /* #section Login / Signup */
 
-.signup-form, .login-form {
+.signup-form, .login-form, .generic-form {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 40%;
     height: 40%;
+    color: var(--text-950);
     background-color: var(--background-125);
     border-radius: 8px;
     padding: 5%;
 }
-.signup-form button, .login-form button {
+.signup-form button, .login-form button, .generic-form button {
     position: absolute;
     bottom: 25px;
     right: 25px;
 }
-.signup-form .redirect, .login-form .redirect {
+.signup-form .redirect, .login-form .redirect, .generic-form .redirect {
     position: absolute;
     bottom: 25px;
     left: 25px;
