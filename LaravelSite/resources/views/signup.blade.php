@@ -11,8 +11,8 @@ action="{{ route('signup') }}" method="POST" class="signup-form"
 @section("inputs")
 @csrf
 <div>
-    <label  for="name">Username:</label>
-    <input  type="text"      name="name" placeholder="Username"  class="w-100">
+    <label  for="username">Username:</label>
+    <input  type="text"      name="username" placeholder="Username"  class="w-100">
 </div>
 <div>
     <label  for="email">Email:</label>

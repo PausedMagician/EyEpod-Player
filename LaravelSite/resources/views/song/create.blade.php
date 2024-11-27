@@ -21,12 +21,12 @@ action="{{ route('song.store') }}" method="post" class="generic-form"
 @section("inputs")
 @csrf
 <div>
-    <label for="name">Title</label>
-    <input type="text" id="name" name="name" class="w-100">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" class="w-100">
 </div>
 <div>
-    <label for="album">Album</label>
-    <select name="album" id="album" class="w-100">
+    <label for="album_id">Album</label>
+    <select name="album_id" id="album_id" class="w-100">
         <option value="">Select album</option>
         <?php foreach ($albums as $album) : ?>
             <option value="<?= $album->id ?>"><?= $album->name ?></option>
@@ -34,13 +34,17 @@ action="{{ route('song.store') }}" method="post" class="generic-form"
     </select>
 </div>
 <div>
-    <label for="genre">Genre</label>
-    <select name="genre" id="genre" class="w-100">
+    <label for="genre_id">Genre</label>
+    <select name="genre_id" id="genre_id" class="w-100">
         <option value="">Select genre</option>
         <?php foreach ($genres as $genre) : ?>
             <option value="<?= $genre->id ?>"><?= $genre->name ?></option>
         <?php endforeach; ?>
     </select>
+</div>
+<div>
+    <label for="length">Duration (seconds)</label>
+    <input type="number" step="1" id="length" name="length" class="w-100">
 </div>
 
 <p class="redirect">

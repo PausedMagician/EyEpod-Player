@@ -1,3 +1,15 @@
+//#region Move this later
+
+function ReadableTime(time) {
+    let minutes = Math.floor(time / 60);
+    let seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+}
+
+//#endregion
+
+
+
 class PodElement {
     selected = false;
     content;
@@ -34,26 +46,31 @@ class PodElement {
     }
 
     render() {
-        if (typeof this.content === "string") {
-            let podElement = document.createElement("PodElement");
-            podElement.innerHTML = this.content;
-            podElement.id = this.identifier;
-            podElement.onclick = () => {
-                globalPages[this.parent].selectPodElement(this);
-            };
-            return podElement;
+        if (this.content instanceof HTMLElement) {
+            console.log("Returning element");
+            console.log(this.content);
+            return this.content;
         }
-        return this.content;
+        console.log("Rendering string");
+        let podElement = document.createElement("PodElement");
+        let inner = "<span>{CONTENT}</span><span>></span>";
+        podElement.innerHTML = inner.replaceAll("{CONTENT}", this.content);
+        podElement.id = this.identifier;
+        podElement.onclick = () => {
+            globalPages[this.parent].selectPodElement(this);
+        };
+        return podElement;
     }
 
     // From datatypes
     static async fromSong(song) {
-        const content = await EyePod.renderSongContent(song.id);
+        const content = await EyePod.renderSongContent(song);
+        console.log(content);
         return new PodElement(
             content,
-            `song${song.id}`,
+            `song${song}`,
             function () {
-                EyePod.playSong(song.id);
+                EyePod.playSong(song);
             },
             song.parent
         );
@@ -61,6 +78,7 @@ class PodElement {
 }
 
 class Page {
+    title;
     content;
     menuCallback;
     skipCallback;
@@ -68,6 +86,7 @@ class Page {
     playCallback;
     /**
      *
+     * @param {string} title
      * @param {PodElement[]} content
      * @param {function} menuCallback
      * @param {function} skipCallback
@@ -75,12 +94,14 @@ class Page {
      * @param {function} playCallback
      */
     constructor(
+        title,
         content,
         menuCallback = undefined,
         skipCallback = undefined,
         pickCallback = undefined,
         playCallback = undefined
     ) {
+        this.title = title;
         this.content = content;
         this.menuCallback = menuCallback;
         this.skipCallback = skipCallback;
@@ -173,24 +194,16 @@ class Page {
 
     render() {
         // Render the page
+        document.querySelector(".status-bar .status-text").innerText = this.title;
         let screen = document.querySelector("div.screen");
         screen.querySelectorAll("PodElement").forEach((element) => {
             element.remove();
         });
         // Take each element in the page and render it
         this.content.forEach((element) => {
-            let podElement;
-            if (element.content instanceof HTMLElement) {
-                podElement = element.content;
-            } else {
-                podElement = document.createElement("PodElement");
-                podElement.innerHTML = element.content;
-            }
-            podElement.id = element.identifier;
-            podElement.onclick = () => {
-                globalPages[element.parent].selectPodElement(element);
-            };
-            screen.appendChild(podElement);
+            let rendered = element.render();
+            console.log(rendered);
+            screen.appendChild(rendered);
         });
         let selected = this.content.find((x) => x.selected);
         if (selected) {
@@ -225,6 +238,10 @@ class EyePod {
         this.page = page;
     }
 
+    /**
+     * 
+     * @param {string} page
+     */
     goToPage(page) {
         this.page = globalPages[page];
         this.render();
@@ -251,8 +268,9 @@ class EyePod {
         //     duration: "Duration",
         //     lyrics: "Lyrics",
         // };
-        const response = await fetch(`/song/get/${id}`);
-        return await response.json();
+        const response = await (await fetch(`/song/get/${id}`)).json();
+        console.log(response);
+        return response;
     }
 
     /**
@@ -262,16 +280,18 @@ class EyePod {
      */
     static async renderSongContent(id) {
         const songData = await this.getSongData(id);
+        console.log(songData);
         let songContent = document.createElement("PodElement");
         songContent.innerHTML = `
                 <div>
                     <h1>${songData.title}</h1>
-                    <h4>${songData.artist}</h4>
-                    <span>${songData.album}</span>
-                    <span>- ${songData.year}</span>
-                    <span>- ${songData.genre}</span>
-                    <span>- ${songData.duration}</span>
+                    <h4>${songData.album.artist.name}</h4>
+                    <span>${songData.album.name}</span>
+                    <span>- ${songData.album.release_date}</span>
+                    <span>- ${songData.genre.name}</span>
+                    <span>- ${ReadableTime(songData.length)}</span>
                 </div>`;
+        songContent.id = `song${id}`;
         return songContent;
     }
 
@@ -406,16 +426,14 @@ document.addEventListener(
     "DOMContentLoaded",
     async function () {
         globalEyePod = new EyePod(globalPages["home"]);
-        globalPages["songs"] = new Page([]);
-        fetch("/songs/get").then((response) => {
-            response.json().then((data) => {
-                for (let song of data) {
-                    globalPages["songs"].content.push(
-                        PodElement.fromSong(song.id)
-                    );
-                }
-            });
-        });
+        globalPages["songs"] = new Page("Songs", []);
+        let data = await (await fetch("/songs/get")).json();
+        for (song of data) {
+            console.log(song);
+            let pod = await PodElement.fromSong(song.id);
+            console.log(pod);
+            globalPages["songs"].content.push(pod);
+        }
         globalEyePod.render();
         globalEyePod.page.content[0].select();
         document.addEventListener("keydown", handleKeyDown);
@@ -428,6 +446,7 @@ document.addEventListener(
 
 let globalPages = {
     home: new Page(
+        "EyePod",
         [
             new PodElement(
                 "Songs",
@@ -471,24 +490,5 @@ let globalPages = {
                 "home"
             ),
         ],
-    ),
-    songs: new Page(
-        [
-            PodElement.fromSong({ id: 1, parent: "songs" }),
-            PodElement.fromSong({ id: 2, parent: "songs" }),
-            PodElement.fromSong({ id: 3, parent: "songs" }),
-            PodElement.fromSong({ id: 4, parent: "songs" }),
-            PodElement.fromSong({ id: 5, parent: "songs" }),
-            PodElement.fromSong({ id: 6, parent: "songs" }),
-            PodElement.fromSong({ id: 7, parent: "songs" }),
-            PodElement.fromSong({ id: 8, parent: "songs" }),
-            PodElement.fromSong({ id: 9, parent: "songs" }),
-            PodElement.fromSong({ id: 10, parent: "songs" }),
-            PodElement.fromSong({ id: 11, parent: "songs" }),
-            PodElement.fromSong({ id: 12, parent: "songs" }),
-            PodElement.fromSong({ id: 13, parent: "songs" }),
-            PodElement.fromSong({ id: 14, parent: "songs" }),
-            PodElement.fromSong({ id: 15, parent: "songs" }),
-        ],
-    ),
+    )
 };

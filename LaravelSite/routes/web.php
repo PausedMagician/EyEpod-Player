@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\UserController;
@@ -13,16 +14,6 @@ function vview($view) {
         return view($view);
     };
 }
-
-
-// Middleware for when the user is logged in
-Route::middleware(EnsureTokenIsValid::class)->group(function() {
-    Route::controller(ArtistController::class)->group(function() {
-        Route::get('/create', [ArtistController::class, 'create']) -> name('artist.create');
-        Route::post('/store',[ArtistController::class,'store']) -> name('artist.store');
-        Route::get('/show/{id}', [ArtistController::class, 'show'])->name('artist.show');
-    });
-});
 
 // Routes for user registration and login
 // Route::get('/signup', vview("signup"))->name('signup');
@@ -47,20 +38,54 @@ Route::controller(UserController::class)->group(function() {
 //     Route::get('/login', [UserController::class, 'login'])->name('login')-> withoutMiddleware(EnsureTokenIsValid::class);
 // });
 
-Route::controller(SongController::class)->prefix('song')->group(function() {
-    Route::get('/create', [SongController::class, 'create'])->name('song.create');
-    Route::post('/store', [SongController::class, 'store'])->name('song.store');
-    Route::get('/get/{id}', [SongController::class, 'get'])->name('song.get');
-});
-Route::controller(SongController::class)->prefix('songs')->group(function() {
-    Route::get('/get', [SongController::class, 'gets'])->name('songs.get');
+#region Artist
+
+// Middleware for when the user is logged in
+Route::middleware(EnsureTokenIsValid::class)->group(function() {
+    Route::controller(ArtistController::class)->prefix("artist")->group(function() {
+        Route::get('/create', [ArtistController::class, 'create']) -> name('artist.create');
+        Route::post('/store',[ArtistController::class,'store']) -> name('artist.store');
+        Route::get('/show/{id}', [ArtistController::class, 'show'])->name('artist.show');
+    });
+    Route::controller(ArtistController::class)->prefix("artists")->group(function() {
+        Route::get('/get', [ArtistController::class, 'gets'])->name('artists.get');
+    });
 });
 
-Route::controller(GenreController::class)->prefix('genre')->group(function() {
-    Route::get('/create', [GenreController::class, 'create'])->name('genre.create');
-    Route::post('/store', [GenreController::class, 'store'])->name('genre.store');
-    Route::get('/get/{id}', [GenreController::class, 'get'])->name('genre.get');
+#endregion
+#region Song
+Route::middleware(EnsureTokenIsValid::class)->group(function() {
+    Route::controller(SongController::class)->prefix('song')->group(function() {
+        Route::get('/create', [SongController::class, 'create'])->name('song.create');
+        Route::post('/store', [SongController::class, 'store'])->name('song.store');
+        Route::get('/get/{id}', [SongController::class, 'get'])->name('song.get');
+    });
+    Route::controller(SongController::class)->prefix('songs')->group(function() {
+        Route::get('/get', [SongController::class, 'gets'])->name('songs.get');
+    });
 });
-Route::controller(GenreController::class)->prefix('genres')->group(function() {
-    Route::get('/get', [GenreController::class, 'gets'])->name('genres.get');
+#endregion
+#region Genre
+Route::middleware(EnsureTokenIsValid::class)->group(function() {
+    Route::controller(GenreController::class)->prefix('genre')->group(function() {
+        Route::get('/create', [GenreController::class, 'create'])->name('genre.create');
+        Route::post('/store', [GenreController::class, 'store'])->name('genre.store');
+        Route::get('/get/{id}', [GenreController::class, 'get'])->name('genre.get');
+    });
+    Route::controller(GenreController::class)->prefix('genres')->group(function() {
+        Route::get('/get', [GenreController::class, 'gets'])->name('genres.get');
+    });
 });
+#endregion
+#region Album
+Route::middleware(EnsureTokenIsValid::class)->group(function() {
+    Route::controller(AlbumController::class)->prefix('album')->group(function() {
+        Route::get('/create', [AlbumController::class, 'create'])->name('album.create');
+        Route::post('/store', [AlbumController::class, 'store'])->name('album.store');
+        Route::get('/get/{id}', [AlbumController::class, 'get'])->name('album.get');
+    });
+    Route::controller(AlbumController::class)->prefix('albums')->group(function() {
+        Route::get('/get', [AlbumController::class, 'gets'])->name('albums.get');
+    });
+});
+#endregion

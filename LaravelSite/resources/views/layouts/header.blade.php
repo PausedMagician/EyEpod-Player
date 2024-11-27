@@ -11,7 +11,9 @@
         <ul>
             @auth
             <li><a href="{{ route('artist.create') }}">Create Artist</a></li>
-            <li><a href="">Create Album</a></li>
+            <li><a href="{{ route('album.create') }}">Create Album</a></li>
+            <li><a href="{{ route('song.create') }}">Create Song</a></li>
+            <li><a href="{{ route('genre.create') }}">Create Genre</a></li>
             <li><a href="">Artist</a></li>
             @endauth
             <div class="auth">

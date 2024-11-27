@@ -17,7 +17,7 @@ class UserController extends Controller
         
         
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'password2' => 'required|string|same:password'
@@ -25,7 +25,7 @@ class UserController extends Controller
         
         //Create new user and saved to the database
         $user = User::create([
-            'name' => $validatedData['name'],
+            'name' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make( $validatedData['password'] ),
         ]);
@@ -39,9 +39,12 @@ class UserController extends Controller
 
     public function authenticate(Request $request){
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'password' => 'required|string|min:8',
         ]);
+
+        $validatedData['name'] = $validatedData['username'];
+        unset($validatedData['username']);
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();

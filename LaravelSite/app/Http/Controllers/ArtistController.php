@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Artist;
 use App\Models\Album;
 use Log;
+use Illuminate\Support\Facades\Auth;
 class ArtistController extends Controller
 {
     public function index(){
@@ -16,19 +17,20 @@ class ArtistController extends Controller
     }
 
     public function create(){
-        return view('create');
+        return view('artist.create');
     }
 
 
     public function store(Request $request){
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'genre' => 'required|string|max:255',
-            'bio' => 'nullable|string',
+            'bio' => 'required|string'
         ]);
 
+        $validatedData['user_id'] = Auth::user()->id;
+
         // Create a new artist and save to the database
-        Artist::create($request->all());
+        Artist::create($validatedData);
 
         // Redirect back to the index page
         return redirect()->route('artist.index')->with(   'success','Artist succesfully created');

@@ -28,26 +28,39 @@ class SongController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'artist' => 'required',
-            'genre' => 'required',
-            'year' => 'required|integer',
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255|unique:songs',
+            'album_id' => 'required|exists:albums,id',
+            'genre_id' => 'required|exists:genres,id',
+            'length' => 'required|numeric',
         ]);
+
+
+        // Create a new song and save to the database
+        Song::create($request->all());
 
         return redirect()->route('artist.index');
     }
 
     public function get($id)
     {
-        echo $id;
-        // return view('songs.get');
+        // Get a song by id
+        $song = Song::find($id);
+        // Get the album of the song
+        $song->album;
+        // Get the album artist
+        $song->album->artist;
+        // Get the genre of the song
+        $song->genre;
+        // Define header content-type
+        return response()->json($song);
     }
 
     public function gets()
     {
         // Get all songs
         $songs = Song::all(columns: ['id']);
-        return view('songs.get', ["songs"=>$songs]);
+        // Define header content-type
+        return response()->json($songs);
     }
 }

@@ -1,38 +1,41 @@
 @extends('layouts.generic-form')
 
 @section('title')
-Login
+Example Title
 @endsection
 
 @section('form-attributes')
-action="{{ route('login') }}" method="post" class="login-form"
+action="{{ route('artist.store') }}" method="post" class="generic-form"
 @endsection
 
-@if (session('success'))
+@section('header')
+@extends('layouts.header')
+@endsection
+
+{{-- @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
-@endif
+@endif --}}
 
 @section("inputs")
 @csrf
 <div>
-    <label for="username">Username:</label>
-    <input type="text"      name="username" placeholder="Username" class="w-100">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" class="w-100">
 </div>
 <div>
-    <label for="password">Password:</label>
-    <input type="password"  name="password" placeholder="Password" class="w-100">
+    <label for="bio">Bio</label>
+    <textarea id="bio" name="bio" class="w-100"></textarea>
 </div>
 
 <p class="redirect">
-    <a href="{{ route('signup') }}">Forgot Password?</a><br>
-    Don't have an account? <a href="{{ route('signup') }}">Sign up</a>
+    <a href="{{ route('artists.get') }}">All artists</a><br>
 </p>
 @endsection
 
 @section("button")
-<button type="submit">Login</button>
+<button type="submit">Create Artist</button>
 @endsection
 
 @section("logs")
