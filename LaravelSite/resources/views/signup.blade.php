@@ -12,16 +12,16 @@ action="{{ route('signup') }}" method="POST" class="signup-form"
 @csrf
 <div>
     <label  for="username">Username:</label>
-    <input  type="text"      name="username" placeholder="Username"  class="w-100">
+    <input  type="text"      name="username" placeholder="Username"  class="w-100"  pattern="[a-zA-Z0-9]{1,}" title="Your username has to contain at least one letter or number.">
 </div>
 <div>
     <label  for="email">Email:</label>
-    <input  type="email"     name="email"    placeholder="Email"     class="w-100">
+    <input  type="email"     name="email"    placeholder="Email"     class="w-100"  pattern="[a-zA-Z]{3,}@[a-zA-Z]{3,}\.[a-zA-Z]{2,}" required>
 </div>
 
 <div>
     <label  for="password">Password:</label>
-    <input  type="password"  name="password" placeholder="Password"  class="w-100">
+    <input  type="password"  name="password" placeholder="Password"  class="w-100"  pattern=".{8,}" title="Password must be at least 8 characters.">
 </div>
 
 <div>
@@ -35,4 +35,14 @@ action="{{ route('signup') }}" method="POST" class="signup-form"
 
 @section("button")
 <button type="submit">Sign Up</button>
+<script>
+    document.querySelector('.signup-form').addEventListener('submit', function(e) {
+        let password = document.querySelector('input[name="password"]');
+        let password2 = document.querySelector('input[name="password2"]');
+        if (password.value !== password2.value) {
+            e.preventDefault();
+            password2.setCustomValidity('Passwords do not match');
+        }
+    });
+</script>
 @endsection

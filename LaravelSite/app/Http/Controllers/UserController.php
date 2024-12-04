@@ -60,4 +60,19 @@ class UserController extends Controller
         session()->flush();
         return redirect()->route('login');
     }
+
+    public function changeName(){
+        return view('user.change-name');
+    }
+
+    public function updateName(Request $request){
+        $validatedData = $request->validate([
+            'username' => 'required|string|max:255',
+        ]);
+        $user = User::find(Auth::id());
+        error_log($user);
+        $user->name = $validatedData['username'];
+        $user->save();
+        return redirect()->route('artist.index')->with('success','Name updated successfully');
+    }
 }

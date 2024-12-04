@@ -268,7 +268,7 @@ class EyePod {
         //     duration: "Duration",
         //     lyrics: "Lyrics",
         // };
-        const response = await (await fetch(`/song/get/${id}`)).json();
+        const response = await (await fetch(`/song/get/${id}`)).json(); // Not ajax, but similar
         console.log(response);
         return response;
     }

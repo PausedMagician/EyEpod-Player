@@ -4,6 +4,7 @@
     <div>
         @auth
         <span>Welcome, {{ Auth::user()->name }}</span>
+        <span><a href="{{ route('user.change-name') }}">Change Name</a></span>
         @endauth
     </div>
     

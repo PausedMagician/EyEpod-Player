@@ -43,3 +43,15 @@ if ! [ $(command -v php -m | grep -c sqlite3) -eq 0 ]; then
         sudo apt install php-sqlite3
     fi
 fi
+
+# Curl
+if ! [ $(command -v php -m | grep -c curl) -eq 0 ]; then
+    echo 'Error: PHP extension curl is not enabled.' >&2
+    sudo apt install php-curl
+fi
+
+# mbstring
+if ! [ $(command -v php -m | grep -c mbstring) -eq 0 ]; then
+    echo 'Error: PHP extension mbstring is not enabled.' >&2
+    sudo apt install php-mbstring
+fi

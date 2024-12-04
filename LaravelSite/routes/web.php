@@ -9,11 +9,11 @@ use App\Http\Controllers\GenreController;
 use App\Models\Artist;
 use App\Http\Middleware\EnsureTokenIsValid;
 
-function vview($view) {
-    return function() use ($view) {
-        return view($view);
-    };
-}
+// function vview($view) {
+//     return function() use ($view) {
+//         return view($view);
+//     };
+// }
 
 // Routes for user registration and login
 // Route::get('/signup', vview("signup"))->name('signup');
@@ -37,6 +37,17 @@ Route::controller(UserController::class)->group(function() {
 // Route::middleware(EnsureTokenIsValid::class)->group(function() {
 //     Route::get('/login', [UserController::class, 'login'])->name('login')-> withoutMiddleware(EnsureTokenIsValid::class);
 // });
+#region User
+
+Route::middleware(EnsureTokenIsValid::class)->group(function() {
+    Route::controller(UserController::class)->prefix("user")->group(function() {
+        Route::get('/change-name', [UserController::class, 'changeName'])->name('user.change-name');
+        Route::patch('/change-name', [UserController::class, 'updateName'])->name('user.change-name');
+    });
+});
+
+#endregion
+
 
 #region Artist
 
